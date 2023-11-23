@@ -1,0 +1,87 @@
+package _2015;
+
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Day3 {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String[] directions = scanner.nextLine().split("");
+        String santaDirections = getSantaDirections(directions);
+        String roboSantaDirections = getRoboSantaDirections(directions);
+
+        Set<String> santa = getRoboSantaHouses(santaDirections);
+        Set<String> roboSanta = getRoboSantaHouses(roboSantaDirections);
+
+        Set<String> finalResult = new HashSet<>();
+
+        finalResult.addAll(santa);
+        finalResult.addAll(roboSanta);
+
+        System.out.println(finalResult.size());
+
+        int roboSantaresult = countHousesWithPresents(roboSantaDirections);
+
+
+        scanner.close();
+    }
+
+    private static Set<String> getRoboSantaHouses(String roboSantaDirections) {
+        int x = 0, y = 0;
+        Set<String> visitedHouses = new HashSet<>();
+        visitedHouses.add("0,0");
+
+
+        for (char direction : roboSantaDirections.toCharArray()) {
+            switch (direction) {
+                case '^' -> y++;
+                case 'v' -> y--;
+                case '>' -> x++;
+                case '<' -> x--;
+            }
+            visitedHouses.add(x + "," + y);
+        }
+
+        return visitedHouses;
+    }
+
+    private static String getRoboSantaDirections(String[] directions) {
+        StringBuilder santaDirections = new StringBuilder();
+        for (int i = 1; i < directions.length - 1; i += 2) {
+            santaDirections.append(directions[i]);
+        }
+        return santaDirections.toString();
+    }
+
+    private static String getSantaDirections(String[] directions) {
+        StringBuilder santaDirections = new StringBuilder();
+        for (int i = 0; i < directions.length - 1; i += 2) {
+            santaDirections.append(directions[i]);
+        }
+        return santaDirections.toString();
+
+    }
+
+    public static int countHousesWithPresents(String directions) {
+        int x = 0, y = 0;
+        Set<String> visitedHouses = new HashSet<>();
+        visitedHouses.add("0,0");
+
+        for (char direction : directions.toCharArray()) {
+            switch (direction) {
+                case '^' -> y++;
+                case 'v' -> y--;
+                case '>' -> x++;
+                case '<' -> x--;
+            }
+
+            visitedHouses.add(x + "," + y);
+        }
+
+        return visitedHouses.size();
+    }
+
+
+}
