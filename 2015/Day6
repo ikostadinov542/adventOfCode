@@ -1,0 +1,87 @@
+package _2015;
+
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Day6 {
+    private static final int SIZE = 1000;
+
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+        int[][] matrix = new int[SIZE][SIZE];
+        setUpLights(matrix);
+
+        String input = scanner.nextLine();
+
+        while (!"exit".equals(input)) {
+            String[] tokens = input.split("\\s+");
+            if (tokens.length == 4) {
+                String toggleCoordinates = tokens[1];
+                String throughCoordinates = tokens[3];
+                int startRow = Integer.parseInt(toggleCoordinates.split(",")[0]);
+                int startCol = Integer.parseInt(toggleCoordinates.split(",")[1]);
+                int endRow = Integer.parseInt(throughCoordinates.split(",")[0]);
+                int endCol = Integer.parseInt(throughCoordinates.split(",")[1]);
+
+                for (int row = startRow; row <= endRow; row++) {
+                    for (int col = startCol; col <= endCol; col++) {
+                        matrix[row][col] += 2;
+                    }
+                }
+            } else {
+                String operation = tokens[1];
+                String toggleCoordinates = tokens[2];
+                String throughCoordinates = tokens[4];
+
+                int startRow = Integer.parseInt(toggleCoordinates.split(",")[0]);
+                int startCol = Integer.parseInt(toggleCoordinates.split(",")[1]);
+                int endRow = Integer.parseInt(throughCoordinates.split(",")[0]);
+                int endCol = Integer.parseInt(throughCoordinates.split(",")[1]);
+
+                switch (operation) {
+                    case "on":
+                        for (int row = startRow; row <= endRow; row++) {
+                            for (int col = startCol; col <= endCol; col++) {
+                                matrix[row][col]++;
+                            }
+                        }
+                        break;
+
+
+                    case "off":
+                        for (int row = startRow; row <= endRow; row++) {
+                            for (int col = startCol; col <= endCol; col++) {
+                                if (matrix[row][col] > 1) {
+                                    matrix[row][col]--;
+                                } else {
+                                    matrix[row][col] = 0;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+            input = scanner.nextLine();
+        }
+        System.out.println(calculateBrightness(matrix));
+    }
+
+    private static int calculateBrightness(int[][] matrix) {
+        int brightness = 0;
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix.length; col++) {
+                brightness += matrix[row][col];
+            }
+        }
+        return brightness;
+    }
+    private static void setUpLights(int[][] matrix) {
+
+        for (int[] ints : matrix) {
+            Arrays.fill(ints, 0);
+        }
+    }
+}
+
+
