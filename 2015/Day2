@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class Day2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        long neededRibbon = 0;
+        String input = scanner.nextLine();
+
+        while (!"exit".equals(input)) {
+
+            String[] dimensions = input.split("x");
+
+            int l = Integer.parseInt(dimensions[0]);
+            int w = Integer.parseInt(dimensions[1]);
+            int h = Integer.parseInt(dimensions[2]);
+
+            int smallest = Math.min(Math.min(l, w), h);
+            int nextSmallest = (l == smallest) ? Math.min(w, h) : (w == smallest) ? Math.min(l, h) : Math.min(l, w);
+
+            int wrappingRibbon = 2 * smallest + 2 * nextSmallest;
+            int bowRibbon = l * w * h;
+
+            neededRibbon += wrappingRibbon + bowRibbon;
+
+            input = scanner.nextLine();
+
+        }
+        System.out.println(neededRibbon);
+
+    }
+}
