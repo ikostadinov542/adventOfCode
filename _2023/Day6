@@ -1,0 +1,52 @@
+package _2023;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Day6 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Map<Long, Long> challenges = fillChallanges(scanner);
+        int countPossibilities = getCountPossibilities(challenges);
+        System.out.println(countPossibilities);
+
+    }
+    private static int getCountPossibilities(Map<Long, Long> challenges) {
+        int countPossibilities = 1;
+        for (Map.Entry<Long, Long> entry : challenges.entrySet()) {
+            countPossibilities = getCountPossibilities(countPossibilities, entry);
+            int currWins;
+            currWins = 0;
+        }
+        return countPossibilities;
+    }
+
+    private static int getCountPossibilities(int countPossibilities, Map.Entry<Long, Long> entry) {
+        long currTime = entry.getKey();
+        long currDistance = entry.getValue();
+
+        int currWins = 0;
+
+        for (int i = 1; i < currTime; i++) {
+            long currHoldDistance = (currTime - i) * i;
+            if (currHoldDistance >= currDistance) {
+                currWins++;
+            }
+        }
+        countPossibilities *= currWins;
+        return countPossibilities;
+    }
+
+    private static Map<Long, Long> fillChallanges(Scanner scanner) {
+        String[] times = scanner.nextLine().replaceAll("\\s+", "").split(":");
+        String[] distances = scanner.nextLine().replaceAll("\\s+", "").split(":");
+        Map<Long, Long> challenges = new LinkedHashMap<>();
+            long currTime = Long.parseLong(times[1]);
+            long currDistance = Long.parseLong(distances[1]);
+            challenges.put(currTime, currDistance);
+
+        return challenges;
+    }
+}
