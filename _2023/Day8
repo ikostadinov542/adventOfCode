@@ -1,0 +1,54 @@
+package _2023;
+
+import java.util.*;
+
+public class Da8 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        char[] directions = scanner.nextLine().toCharArray();
+        scanner.nextLine();
+        Map<String, List<String>> map = fillMap(scanner);
+
+        String startElement = "AAA";
+        int countSteps = 0;
+
+        while (!"ZZZ".equals(startElement)) {
+            if (map.containsKey(startElement)) {
+                for (int i = 0; i < directions.length; i++) {
+                    countSteps++;
+                    char direction = directions[i];
+                    switch (direction) {
+                        case 'R' -> startElement = map.get(startElement).get(1);
+                        case 'L' -> startElement = map.get(startElement).get(0);
+                    }
+
+                    if ("ZZZ".equals(startElement)) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        System.out.println(countSteps);
+
+    }
+    private static Map<String, List<String>> fillMap(Scanner scanner) {
+        Map<String, List<String>> map = new LinkedHashMap<>();
+        String input = scanner.nextLine();
+        while (!"end".equals(input)) {
+            String[] tokens = input.split("=");
+            String string = tokens[0].trim();
+            String[] array = tokens[1].trim().split(", ");
+            String rightElement = array[0].substring(1, 4);
+            String leftElement = array[1].substring(0, 3);
+            map.putIfAbsent(string, new ArrayList<>());
+            List<String> strings = map.get(string);
+            strings.add(0, rightElement);
+            strings.add(1, leftElement);
+
+            input = scanner.nextLine();
+        }
+        return map;
+    }
+}
