@@ -1,0 +1,33 @@
+package _2023;
+
+import java.util.Scanner;
+
+public class Day15 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int totalSum = 0;
+
+        String[] input = scanner.nextLine().split(",");
+        for (String s : input) {
+            char[] currCharArray = s.toCharArray();
+            int currSum = getSumOfCurrChar(currCharArray);
+            totalSum += currSum;
+        }
+        System.out.println(totalSum);
+    }
+
+    private static int getSumOfCurrChar(char[] charArray) {
+        int sum = 0;
+        for (char c : charArray) {
+            sum = calculateSum(sum, c);
+        }
+        return sum;
+    }
+
+    private static int calculateSum(int sum, char c) {
+        sum += c;
+        sum = sum * 17 % 256;
+        return sum;
+    }
+}
